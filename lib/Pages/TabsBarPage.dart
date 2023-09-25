@@ -29,7 +29,7 @@ class _tabsBarPageState extends State<tabsBarPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: (TabBar(
@@ -68,7 +68,7 @@ class _tabsBarPageState extends State<tabsBarPage> {
                   ),
                   text: 'Discover'),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Tab(
                   icon: Icon(
@@ -79,16 +79,16 @@ class _tabsBarPageState extends State<tabsBarPage> {
                     size: _currentIndex == 1 ? 30 : 20,
                   ),
                   text: 'NearBy'),
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Tab(
                   icon: Icon(
                     Icons.app_registration_rounded,
-                    color: _currentIndex == 2
+                    color: _currentIndex == 1
                         ? style.appColor
                         : Color.fromARGB(255, 185, 196, 207),
-                    size: _currentIndex == 2 ? 30 : 20,
+                    size: _currentIndex == 1 ? 30 : 20,
                   ),
                   text: 'Appointment'),
             ),
@@ -97,10 +97,10 @@ class _tabsBarPageState extends State<tabsBarPage> {
               child: Tab(
                   icon: Icon(
                     Icons.chat_bubble,
-                    color: _currentIndex == 3
+                    color: _currentIndex == 2
                         ? style.appColor
                         : Color.fromARGB(255, 185, 196, 207),
-                    size: _currentIndex == 3 ? 30 : 20,
+                    size: _currentIndex == 2 ? 30 : 20,
                   ),
                   text: 'Messages'),
             ),
@@ -109,10 +109,10 @@ class _tabsBarPageState extends State<tabsBarPage> {
               child: Tab(
                   icon: Icon(
                     Icons.person,
-                    color: _currentIndex == 4
+                    color: _currentIndex == 3
                         ? style.appColor
                         : Color.fromARGB(255, 185, 196, 207),
-                    size: _currentIndex == 4 ? 30 : 20,
+                    size: _currentIndex == 3 ? 30 : 20,
                   ),
                   text: 'Profile'),
             ),
@@ -122,7 +122,6 @@ class _tabsBarPageState extends State<tabsBarPage> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             DiscoverPage(),
-            NearByPage(),
             AppointmentPage(),
             MessagePage(),
             ProfilePage(),

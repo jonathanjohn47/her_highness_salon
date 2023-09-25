@@ -8,6 +8,7 @@
 */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:her_highness_salon/Pages/AppointmentPage.dart';
 import 'package:her_highness_salon/Pages/ChatPage.dart';
 import 'package:her_highness_salon/Pages/DiscoverPage.dart';
@@ -37,9 +38,9 @@ class salon1AppCapacitor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Salon 1',
-      theme: ThemeData(fontFamily: 'regular'),
+      theme: ThemeData(fontFamily: 'regular', primaryColor: Color(0xFFBF8227)),
       home: WelcomePage(),
       debugShowCheckedModeBanner: false,
       routes: {
@@ -59,6 +60,7 @@ class salon1AppCapacitor extends StatelessWidget {
         InviteFriendPage.PageId: (context) => InviteFriendPage(),
         SpecialistInfoPage.PageId: (context) => SpecialistInfoPage(),
       },
+
     );
   }
 }
