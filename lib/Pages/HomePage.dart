@@ -13,18 +13,14 @@ import 'package:her_highness_salon/Pages/ServicesInfoPage.dart';
 import 'package:her_highness_salon/Pages/SpecialistInfoPage.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
 
-class DiscoverPage extends StatefulWidget {
-  DiscoverPage({Key? key}) : super(key: key);
-
+class DiscoverPage extends StatelessWidget {
   static const String PageId = 'DiscoverPage';
 
-  @override
-  State<DiscoverPage> createState() => _DiscoverPageState();
-}
+  late BuildContext context;
 
-class _DiscoverPageState extends State<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -102,12 +98,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 children: [
                   _buildSpecialist('Rahul Jograna', 'assets/images/selfies.jpg',
                       'Make Up Artist'),
-                  _buildSpecialist(
-                      'Hardik Rajput', 'assets/images/p4.jpg', 'Make Up Artist'),
+                  _buildSpecialist('Hardik Rajput', 'assets/images/p4.jpg',
+                      'Make Up Artist'),
                   _buildSpecialist('Shailly Acharya', 'assets/images/p6.jpg',
                       'Make Up Artist'),
-                  _buildSpecialist(
-                      'Jaydeep Hirani', 'assets/images/p3.jpg', 'Make Up Artist'),
+                  _buildSpecialist('Jaydeep Hirani', 'assets/images/p3.jpg',
+                      'Make Up Artist'),
                   _buildSpecialist(
                       'Dodiya Saheb', 'assets/images/s3.jpg', 'Make Up Artist'),
                 ],

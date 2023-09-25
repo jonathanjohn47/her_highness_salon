@@ -8,7 +8,7 @@
 */
 import 'package:flutter/material.dart';
 import 'package:her_highness_salon/Pages/AppointmentPage.dart';
-import 'package:her_highness_salon/Pages/DiscoverPage.dart';
+import 'package:her_highness_salon/Pages/HomePage.dart';
 import 'package:her_highness_salon/Pages/MessagePage.dart';
 import 'package:her_highness_salon/Pages/NearByPage.dart';
 import 'package:her_highness_salon/Pages/ProfilePage.dart';

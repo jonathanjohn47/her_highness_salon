@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:her_highness_salon/Pages/AppointmentPage.dart';
 import 'package:her_highness_salon/Pages/ChatPage.dart';
-import 'package:her_highness_salon/Pages/DiscoverPage.dart';
+import 'package:her_highness_salon/Pages/HomePage.dart';
 import 'package:her_highness_salon/Pages/EditProfilePage.dart';
 import 'package:her_highness_salon/Pages/ForgotPasswordPage.dart';
 import 'package:her_highness_salon/Pages/InviteFriendPage.dart';
