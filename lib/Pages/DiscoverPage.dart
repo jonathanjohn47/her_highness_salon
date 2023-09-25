@@ -7,6 +7,8 @@
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:her_highness_salon/Pages/NotificationsPage.dart';
 import 'package:her_highness_salon/Pages/ServicesInfoPage.dart';
 import 'package:her_highness_salon/Pages/SpecialistInfoPage.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
@@ -49,7 +51,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               )
             ],
           ),*/
-          _buildTitle('Best Specialist'),
+          _buildTitle('Our Hair Stylists'),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
@@ -91,6 +93,27 @@ class _DiscoverPageState extends State<DiscoverPage> {
               ),
             ),
           ),
+          _buildTitle('Our Makeup Artists'),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Row(
+                children: [
+                  _buildSpecialist('Rahul Jograna', 'assets/images/selfies.jpg',
+                      'Make Up Artist'),
+                  _buildSpecialist(
+                      'Hardik Rajput', 'assets/images/p4.jpg', 'Make Up Artist'),
+                  _buildSpecialist('Shailly Acharya', 'assets/images/p6.jpg',
+                      'Make Up Artist'),
+                  _buildSpecialist(
+                      'Jaydeep Hirani', 'assets/images/p3.jpg', 'Make Up Artist'),
+                  _buildSpecialist(
+                      'Dodiya Saheb', 'assets/images/s3.jpg', 'Make Up Artist'),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -105,10 +128,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
           Text(
             '$txt',
             style: TextStyle(fontSize: 20, fontFamily: 'bold'),
-          ),
-          Text(
-            'View All >',
-            style: TextStyle(fontSize: 15, color: style.appColor),
           ),
         ],
       ),
@@ -184,7 +203,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                           size: 25,
                         ),
                         onPressed: () {
-                          //
+                          Get.to(() => NotificationsPage());
                         },
                       ),
                     ),

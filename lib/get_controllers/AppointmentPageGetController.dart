@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class AppointmentPageGetController extends GetxController {
+class AppointmentPageGetController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   List<int> text = [1, 2, 3, 4, 5, 6, 7];
   late _AppointmentDataSource? dataSource;
 
@@ -24,10 +25,15 @@ class AppointmentPageGetController extends GetxController {
       endTimeZone: '',
       recurrenceRule: 'FREQ=DAILY;INTERVAL=2;COUNT=5',
     ));
-
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() {
+      tabIndex.value = tabController.index;
+    });
     dataSource = _AppointmentDataSource(appointments);
     super.onInit();
   }
+
+  late TabController tabController;
 }
 
 class _AppointmentDataSource extends CalendarDataSource {

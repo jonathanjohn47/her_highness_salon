@@ -66,7 +66,7 @@ class _tabsBarPageState extends State<tabsBarPage> {
                         : Color.fromARGB(255, 185, 196, 207),
                     size: _currentIndex == 0 ? 30 : 20,
                   ),
-                  text: 'Discover'),
+                  text: 'Home'),
             ),
             /*Padding(
               padding: const EdgeInsets.only(top: 10),

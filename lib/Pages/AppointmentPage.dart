@@ -26,6 +26,7 @@ class AppointmentPage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: TabBar(
+            controller: getController.tabController,
               tabs: [
                 Tab(
                   child: Obx(() {
@@ -62,6 +63,7 @@ class AppointmentPage extends StatelessWidget {
                 getController.tabIndex.value = index;
               }),
           body: TabBarView(
+            controller: getController.tabController,
             children: [
               OngoingAppointmentsTab(),
               OldAppointmentsTab(),

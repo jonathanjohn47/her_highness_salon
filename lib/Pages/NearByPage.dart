@@ -166,10 +166,6 @@ class _NearByPageState extends State<NearByPage> {
             '$txt',
             style: TextStyle(fontSize: 20, fontFamily: 'bold'),
           ),
-          Text(
-            'View All >',
-            style: TextStyle(fontSize: 15, color: style.appColor),
-          ),
         ],
       ),
     );

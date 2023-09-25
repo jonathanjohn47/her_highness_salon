@@ -24,6 +24,7 @@ import 'package:her_highness_salon/Pages/SpecialistInfoPage.dart';
 import 'package:her_highness_salon/Pages/TabsBarPage.dart';
 import 'package:her_highness_salon/Pages/VideoCallPage.dart';
 import 'package:her_highness_salon/Pages/WelcomePage.dart';
+import 'package:sizer/sizer.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -38,29 +39,31 @@ class salon1AppCapacitor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Salon 1',
-      theme: ThemeData(fontFamily: 'regular', primaryColor: Color(0xFFBF8227)),
-      home: WelcomePage(),
-      debugShowCheckedModeBanner: false,
-      routes: {
-        WelcomePage.PageId: (context) => WelcomePage(),
-        LoginPage.PageId: (context) => LoginPage(),
-        ForgotPasswordPage.PageId: (context) => ForgotPasswordPage(),
-        RegisterPage.PageId: (context) => RegisterPage(),
-        tabsBarPage.PageId: (context) => tabsBarPage(),
-        DiscoverPage.PageId: (context) => DiscoverPage(),
-        NearByPage.PageId: (context) => NearByPage(),
-        AppointmentPage.PageId: (context) => AppointmentPage(),
-        MessagePage.PageId: (context) => MessagePage(),
-        ChatPage.PageId: (context) => ChatPage(),
-        ProfilePage.PageId: (context) => ProfilePage(),
-        VideoCallPage.PageId: (context) => VideoCallPage(),
-        EditProfilePage.PageId: (context) => EditProfilePage(),
-        InviteFriendPage.PageId: (context) => InviteFriendPage(),
-        SpecialistInfoPage.PageId: (context) => SpecialistInfoPage(),
-      },
-
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return GetMaterialApp(
+        title: 'Salon 1',
+        theme:
+            ThemeData(fontFamily: 'regular', primaryColor: Color(0xFFBF8227)),
+        home: WelcomePage(),
+        debugShowCheckedModeBanner: false,
+        routes: {
+          WelcomePage.PageId: (context) => WelcomePage(),
+          LoginPage.PageId: (context) => LoginPage(),
+          ForgotPasswordPage.PageId: (context) => ForgotPasswordPage(),
+          RegisterPage.PageId: (context) => RegisterPage(),
+          tabsBarPage.PageId: (context) => tabsBarPage(),
+          DiscoverPage.PageId: (context) => DiscoverPage(),
+          NearByPage.PageId: (context) => NearByPage(),
+          AppointmentPage.PageId: (context) => AppointmentPage(),
+          MessagePage.PageId: (context) => MessagePage(),
+          ChatPage.PageId: (context) => ChatPage(),
+          ProfilePage.PageId: (context) => ProfilePage(),
+          VideoCallPage.PageId: (context) => VideoCallPage(),
+          EditProfilePage.PageId: (context) => EditProfilePage(),
+          InviteFriendPage.PageId: (context) => InviteFriendPage(),
+          SpecialistInfoPage.PageId: (context) => SpecialistInfoPage(),
+        },
+      );
+    });
   }
 }
