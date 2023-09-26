@@ -65,8 +65,8 @@ class LoginPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50),
-                              topRight: Radius.circular(50))),
+                              topLeft: Radius.circular(30.sp),
+                              topRight: Radius.circular(30.sp))),
                     ),
                   ),
                   Positioned(
@@ -93,7 +93,7 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 0, left: 30, right: 30),
+                padding:  EdgeInsets.only(top: 0, left: 20.sp, right: 20.sp),
                 child: Column(
                   children: [
                     Padding(
