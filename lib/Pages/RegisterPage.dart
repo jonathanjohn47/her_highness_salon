@@ -7,24 +7,22 @@
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:her_highness_salon/Pages/LoginPage.dart';
 import 'package:her_highness_salon/Pages/TabsBarPage.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
 
-class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+import '../get_controllers/sign_up_get_controller.dart';
 
+class RegisterPage extends StatelessWidget {
   static const String PageId = 'RegisterPage';
 
-  @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
-  DateTime date = DateTime(2022, 12, 24);
+  late BuildContext context;
+  SignUpGetController signUpGetController = Get.put(SignUpGetController());
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -59,6 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
             _buildContentFields('Password', Icon(Icons.lock)),
             _buildDateAndTime(),
             _buildContentFields('Your Address', Icon(Icons.location_on)),
+            _buildPhotoUploadField(),
             _buildSignUpButton(),
           ],
         ),
@@ -125,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       onPressed: () async {
                         DateTime? newDate = await showDatePicker(
                           context: context,
-                          initialDate: date,
+                          initialDate: signUpGetController.date.value,
                           firstDate: DateTime(1900),
                           lastDate: DateTime(2100),
                           helpText: 'Select Your Birth Date',
@@ -150,11 +149,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                         );
                         if (newDate == null) return;
-                        setState(() => date = newDate);
+                        signUpGetController.date.value = newDate;
                       },
-                      label: Text(
-                        '${date.day}/${date.month}/${date.year}',
-                      ),
+                      label: Obx(() {
+                        return Text(
+                          '${signUpGetController.date.value.day}/${signUpGetController.date.value.month}/${signUpGetController.date.value.year}',
+                        );
+                      }),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 13),
@@ -226,6 +227,12 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildPhotoUploadField() {
+    return ListTile(
+      leading: CircleAvatar(),
     );
   }
 }
