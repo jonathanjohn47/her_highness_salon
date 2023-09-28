@@ -12,7 +12,7 @@ class UserModel {
   String id;
   String fullName;
   String email;
-  int dateOfBirth;
+  DateTime dateOfBirth;
   String address;
   String profilePicLink;
 
@@ -29,7 +29,7 @@ class UserModel {
     String? id,
     String? fullName,
     String? email,
-    int? dateOfBirth,
+    DateTime? dateOfBirth,
     String? address,
     String? profilePicLink,
   }) =>
@@ -46,7 +46,7 @@ class UserModel {
     id: json["id"],
     fullName: json["full_name"],
     email: json["email"],
-    dateOfBirth: json["date_of_birth"],
+    dateOfBirth: DateTime.parse(json["date_of_birth"]),
     address: json["address"],
     profilePicLink: json["profile_pic_link"],
   );
@@ -55,7 +55,7 @@ class UserModel {
     "id": id,
     "full_name": fullName,
     "email": email,
-    "date_of_birth": dateOfBirth,
+    "date_of_birth": dateOfBirth.toIso8601String(),
     "address": address,
     "profile_pic_link": profilePicLink,
   };

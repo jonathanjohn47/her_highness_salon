@@ -251,7 +251,8 @@ class RegisterPage extends StatelessWidget {
           return signUpGetController.imagePath.value.isNotEmpty
               ? CircleAvatar(
                   radius: 40.sp,
-                  child: Image.file(File(signUpGetController.imagePath.value)),
+                  backgroundImage:
+                      FileImage(File(signUpGetController.imagePath.value)),
                 )
               : Text(
                   'No Image\nSelected',

@@ -27,7 +27,7 @@ class SignUpGetController extends GetxController {
   Future<void> getImage() async {
     ImagePicker picker = ImagePicker();
     await picker
-        .pickImage(source: ImageSource.gallery, imageQuality: 33)
+        .pickImage(source: ImageSource.camera, imageQuality: 33)
         .then((value) {
       if (value != null) {
         imagePath.value = value.path;
@@ -59,14 +59,19 @@ class SignUpGetController extends GetxController {
     // If user does not exist, proceed with saving the profile
     if (formKey.currentState!.validate()) {
       if (imagePath.value.isNotEmpty) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim());
         final downloadUrl = await uploadImageToFirebaseStorage(imagePath.value);
-        final userModel = buildUserModel(
+
+        UserModel userModel = buildUserModel(
           fullNameController.text,
           emailController.text,
-          int.parse(dateOfBirthController.text),
+          date.value,
           addressController.text,
           downloadUrl,
         );
+
         await saveUserModelToFirebase(userModel);
       } else {
         Get.snackbar('Error', 'Please select your profile picture',
@@ -92,7 +97,7 @@ class SignUpGetController extends GetxController {
     });
   }
 
-  UserModel buildUserModel(String fullName, String email, int dateOfBirth,
+  UserModel buildUserModel(String fullName, String email, DateTime dateOfBirth,
       String address, String profilePicLink) {
     return UserModel(
       id: generateUniqueId(),
