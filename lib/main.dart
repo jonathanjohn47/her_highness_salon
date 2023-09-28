@@ -7,6 +7,7 @@
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,27 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Register the background message handler.
+  FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+    // Handle the background message here.
+    // For example, you can show a local notification to the user.
+    /*await FlutterLocalNotificationsPlugin().show(
+      0,
+      message.notification.title,
+      message.notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          'com.example.app',
+          'App Name',
+          'App Channel',
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
+      ),
+    );*/
+  });
+
   runApp(const salon1AppCapacitor());
 }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:her_highness_salon/core/app_constants.dart';
 import 'package:her_highness_salon/models/offer_model.dart';
@@ -68,12 +69,23 @@ class HomePageGetController extends GetxController {
     });
   }
 
+  void saveFcmToken() {
+    FirebaseMessaging.instance.getToken().then((value) {
+      FirebaseFirestore.instance
+          .collection(AppConstants.users)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'fcm_token': value});
+    });
+  }
+
   @override
   void onInit() {
     loadCurrentUser();
     loadHairStylists();
     loadMakeUpArtists();
     loadOffers();
+    saveFcmToken();
+    getUnreadNotificationsCount();
 
     super.onInit();
   }

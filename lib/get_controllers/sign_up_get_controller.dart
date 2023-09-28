@@ -107,7 +107,7 @@ class SignUpGetController extends GetxController {
       email: email,
       dateOfBirth: dateOfBirth,
       address: address,
-      profilePicLink: profilePicLink,
+      profilePicLink: profilePicLink, fcmToken: '',
     );
   }
 
