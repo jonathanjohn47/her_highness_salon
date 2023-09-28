@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'user_model.dart';
+import 'package:her_highness_salon/models/user_model.dart';
 
 AppointmentModel appointmentModelFromJson(String str) =>
     AppointmentModel.fromJson(json.decode(str));
@@ -18,6 +18,8 @@ class AppointmentModel {
   UserModel userModel;
   DateTime from;
   DateTime to;
+  bool finished;
+  bool cancelled;
 
   AppointmentModel({
     required this.id,
@@ -25,6 +27,8 @@ class AppointmentModel {
     required this.userModel,
     required this.from,
     required this.to,
+    required this.finished,
+    required this.cancelled,
   });
 
   AppointmentModel copyWith({
@@ -33,6 +37,8 @@ class AppointmentModel {
     UserModel? userModel,
     DateTime? from,
     DateTime? to,
+    bool? finished,
+    bool? cancelled,
   }) =>
       AppointmentModel(
         id: id ?? this.id,
@@ -40,6 +46,8 @@ class AppointmentModel {
         userModel: userModel ?? this.userModel,
         from: from ?? this.from,
         to: to ?? this.to,
+        finished: finished ?? this.finished,
+        cancelled: cancelled ?? this.cancelled,
       );
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) =>
@@ -49,6 +57,8 @@ class AppointmentModel {
         userModel: UserModel.fromJson(json["user_model"]),
         from: DateTime.parse(json["from"]),
         to: DateTime.parse(json["to"]),
+        finished: json["finished"],
+        cancelled: json["cancelled"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,5 +67,7 @@ class AppointmentModel {
         "user_model": userModel.toJson(),
         "from": from.toIso8601String(),
         "to": to.toIso8601String(),
+        "finished": finished,
+        "cancelled": cancelled,
       };
 }

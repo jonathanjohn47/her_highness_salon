@@ -7,18 +7,21 @@
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
+import 'package:her_highness_salon/helpers/date_time_helpers.dart';
+import 'package:her_highness_salon/models/chat_message_model.dart';
+import 'package:sizer/sizer.dart';
 
-class ChatPage extends StatefulWidget {
-  ChatPage({Key? key}) : super(key: key);
+import '../get_controllers/chat_page_get_controller.dart';
 
+class ChatPage extends StatelessWidget {
   static const String PageId = 'ChatPage';
 
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
+  ChatPageGetController chatPageGetController =
+      Get.put(ChatPageGetController());
 
-class _ChatPageState extends State<ChatPage> {
+  late BuildContext context;
   List<Item> messages = <Item>[
     Item('left', 'Hey there! What\'s up>?'),
     Item(
@@ -31,10 +34,11 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: _buildAppBar(),
+        //appBar: _buildAppBar(),
         body: _buildBody(),
         bottomNavigationBar: _buildFooter(),
       ),
@@ -87,106 +91,156 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildBody() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: messages.map((Item msg) {
-          return msg.side == 'left'
-              ? Container(
-                  margin: EdgeInsets.only(bottom: 16),
-                  width: MediaQuery.of(context).size.width - 120,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/p6.jpg'),
-                        radius: 20,
-                      ),
-                      Flexible(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFA4E3FF),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(5),
-                                    bottomRight: Radius.circular(5),
-                                  )),
-                              child: Text(
-                                msg.msg,
-                                style: TextStyle(fontSize: 14),
+    return Obx(() {
+      return SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:
+              chatPageGetController.allMessages.map((ChatMessageModel msg) {
+            return msg.sentByAdmin
+                ? Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    width: MediaQuery.of(context).size.width - 120,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundImage: AssetImage(
+                              'assets/images/WhatsApp Image 2023-09-21 at 4.11.42 PM.jpeg'),
+                          radius: 20,
+                        ),
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              msg.imageLink.isNotEmpty
+                                  ? Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFA4E3FF),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(5),
+                                            bottomRight: Radius.circular(5),
+                                          )),
+                                      child: Image.network(
+                                        msg.imageLink,
+                                        height: 30.w,
+                                        width: 30.w,
+                                      ),
+                                    )
+                                  : SizedBox(),
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFA4E3FF),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(5),
+                                      bottomRight: Radius.circular(5),
+                                    )),
+                                child: Text(
+                                  msg.text,
+                                  style: TextStyle(fontSize: 14),
+                                ),
                               ),
+                              Container(
+                                margin: EdgeInsets.only(top: 8, left: 8),
+                                child: Text(
+                                  msg.sentAt.getHowMuchTimeAgo(),
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.black),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 16),
+                            width: MediaQuery.of(context).size.width - 120,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Flexible(
+                                  child: Column(
+                                    children: [
+                                      msg.imageLink.isNotEmpty
+                                          ? Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 10),
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors
+                                                      .orangeAccent.shade100,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft: Radius.circular(5),
+                                                    topRight:
+                                                        Radius.circular(15),
+                                                    bottomLeft:
+                                                        Radius.circular(5),
+                                                  )),
+                                              child: Image.network(
+                                                msg.imageLink,
+                                                height: 30.w,
+                                                width: 30.w,
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                            color: Colors.orangeAccent.shade100,
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(5),
+                                              topRight: Radius.circular(15),
+                                              bottomLeft: Radius.circular(5),
+                                            )),
+                                        child: Text(
+                                          msg.text,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              margin: EdgeInsets.only(top: 8, left: 8),
-                              child: Text(
-                                '10:30 AM',
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.black),
-                              ),
-                            )
-                          ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 8),
+                        child: Text(
+                          msg.sentAt.getHowMuchTimeAgo(),
+                          style: TextStyle(fontSize: 12, color: Colors.black),
                         ),
                       )
                     ],
-                  ),
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 16),
-                          width: MediaQuery.of(context).size.width - 120,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Flexible(
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: Colors.orangeAccent.shade100,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(5),
-                                        topRight: Radius.circular(15),
-                                        bottomLeft: Radius.circular(5),
-                                      )),
-                                  child: Text(
-                                    msg.msg,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 14),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 8),
-                      child: Text(
-                        '10:30 AM',
-                        style: TextStyle(fontSize: 12, color: Colors.black),
-                      ),
-                    )
-                  ],
-                );
-        }).toList(),
-      ),
-    );
+                  );
+          }).toList(),
+        ),
+      );
+    });
   }
 
   Widget _buildFooter() {
@@ -203,6 +257,9 @@ class _ChatPageState extends State<ChatPage> {
         child: Row(
           children: <Widget>[
             InkWell(
+              onTap: () {
+                chatPageGetController.getImage();
+              },
               child: Container(
                 height: 35,
                 width: 35,
@@ -222,6 +279,9 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
             InkWell(
+              onTap: (){
+                chatPageGetController.sendMessage();
+              },
               child: Container(
                 height: 35,
                 width: 35,
@@ -247,6 +307,7 @@ class _ChatPageState extends State<ChatPage> {
 
 class Item {
   const Item(this.side, this.msg);
+
   final String side;
   final String msg;
 }

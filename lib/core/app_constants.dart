@@ -21,4 +21,6 @@ class AppConstants {
   static String notifications = 'Notifications';
 
   static String appointments = 'Appointments';
+
+  static String messages = 'Messages';
 }

@@ -7,7 +7,6 @@
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:her_highness_salon/Pages/ChatPage.dart';
 
 class MessagePage extends StatelessWidget {
@@ -18,8 +17,8 @@ class MessagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     this.context = context;
-    return Obx(() {
-      return /*loginGetController.loginAsAdmin.value
+    return ChatPage(); /*Obx(() {
+      return loginGetController.loginAsAdmin.value
           ? SafeArea(
               child: Scaffold(
                 backgroundColor: Colors.white,
@@ -83,9 +82,9 @@ class MessagePage extends StatelessWidget {
                 ),
               ),
             )
-          :*/
+          :
           ChatPage();
-    });
+    });*/
   }
 
   Widget _buildContent1(txt1, txt2, txt3, img) {

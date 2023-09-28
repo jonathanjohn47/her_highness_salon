@@ -6,23 +6,25 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:her_highness_salon/Pages/EditProfilePage.dart';
-import 'package:her_highness_salon/Pages/InviteFriendPage.dart';
+import 'package:get/get.dart';
 import 'package:her_highness_salon/Pages/LoginPage.dart';
+import 'package:her_highness_salon/Pages/TermsOfServicesPage.dart';
+import 'package:her_highness_salon/get_controllers/home_page_get_controller.dart';
+import 'package:sizer/sizer.dart';
 
-class ProfilePage extends StatefulWidget {
-  ProfilePage({Key? key}) : super(key: key);
-
+class ProfilePage extends StatelessWidget {
   static const String PageId = 'ProfilePage';
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  late BuildContext context;
 
-class _ProfilePageState extends State<ProfilePage> {
+  HomePageGetController homePageGetController =
+      Get.put(HomePageGetController());
+
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -36,29 +38,14 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: [
           _buildProfile(),
-          _buildList(Icons.payment, 'Payment Method', () {
-            //
-          }),
-          _buildList(Icons.info, 'Account Informations', () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EditProfilePage()));
-          }),
-          _buildList(Icons.notifications, 'Notifications', () {
-            //
-          }),
-          _buildList(Icons.people, 'Invite Friends', () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => InviteFriendPage()));
-          }),
-          _buildList(Icons.settings, 'Settings', () {
-            //
-          }),
           _buildList(Icons.book, 'Term of services', () {
-            //
+            Get.to(() => TermsOfServicesPage());
           }),
           _buildList(Icons.logout, 'Logout', () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
+            FirebaseAuth.instance.signOut().then((value) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            });
           }),
         ],
       ),
@@ -71,30 +58,25 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            children: [
-              Container(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: SizedBox.fromSize(
-                    size: Size.fromRadius(40),
-                    child: FittedBox(
-                      child: Image.asset('assets/images/p5.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+          Obx(() {
+            return Column(
+              children: [
+                CircleAvatar(
+                  radius: 40.sp,
+                  backgroundImage: NetworkImage(
+                      homePageGetController.currentUser.value.profilePicLink),
                 ),
-              ),
-              Text(
-                'Rahul Jograna',
-                style: TextStyle(fontFamily: 'bold', fontSize: 20),
-              ),
-              Text(
-                'rahul@initappz.com',
-                style: TextStyle(color: Colors.grey, fontSize: 15),
-              ),
-            ],
-          ),
+                Text(
+                  '${homePageGetController.currentUser.value.fullName}',
+                  style: TextStyle(fontFamily: 'bold', fontSize: 20),
+                ),
+                Text(
+                  '${homePageGetController.currentUser.value.email}',
+                  style: TextStyle(color: Colors.grey, fontSize: 15),
+                ),
+              ],
+            );
+          }),
         ],
       ),
     );
