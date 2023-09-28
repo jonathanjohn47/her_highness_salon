@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../get_controllers/OngoingAppointmentsGetController.dart';
@@ -28,31 +29,34 @@ class OngoingAppointmentsTab extends StatelessWidget {
                 ]),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SfCalendar(
-                viewHeaderStyle: ViewHeaderStyle(
-                    backgroundColor: Colors.white,
-                    dayTextStyle: TextStyle(color: Colors.grey, fontSize: 20),
-                    dateTextStyle: TextStyle(color: Colors.grey, fontSize: 25)),
-                view: CalendarView.month,
-                firstDayOfWeek: 3,
-                headerStyle: CalendarHeaderStyle(textAlign: TextAlign.center),
-                initialSelectedDate: DateTime(2019, 12, 20, 12),
-                todayHighlightColor: style.appColor,
-                cellBorderColor: Colors.transparent,
-                showNavigationArrow: true,
-                showWeekNumber: true,
-                backgroundColor: Colors.orangeAccent.withOpacity(0.1),
-                selectionDecoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(color: style.appColor, width: 2),
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  shape: BoxShape.rectangle,
-                ),
-                dataSource: getController.dataSource,
-                monthViewSettings: MonthViewSettings(
-                    appointmentDisplayMode:
-                        MonthAppointmentDisplayMode.appointment),
-              ),
+              child: Obx(() {
+                return SfCalendar(
+                  viewHeaderStyle: ViewHeaderStyle(
+                      backgroundColor: Colors.white,
+                      dayTextStyle: TextStyle(color: Colors.grey, fontSize: 20),
+                      dateTextStyle:
+                          TextStyle(color: Colors.grey, fontSize: 25)),
+                  view: CalendarView.month,
+                  firstDayOfWeek: 3,
+                  headerStyle: CalendarHeaderStyle(textAlign: TextAlign.center),
+                  initialSelectedDate: DateTime(2019, 12, 20, 12),
+                  todayHighlightColor: style.appColor,
+                  cellBorderColor: Colors.transparent,
+                  showNavigationArrow: true,
+                  showWeekNumber: true,
+                  backgroundColor: Colors.orangeAccent.withOpacity(0.1),
+                  selectionDecoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(color: style.appColor, width: 2),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    shape: BoxShape.rectangle,
+                  ),
+                  dataSource: getController.dataSource.value,
+                  monthViewSettings: MonthViewSettings(
+                      appointmentDisplayMode:
+                          MonthAppointmentDisplayMode.appointment),
+                );
+              }),
             ),
           ),
           SizedBox(
@@ -135,35 +139,46 @@ class OngoingAppointmentsTab extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(color: Colors.grey, width: 0.5))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(child: _buildColumnFirst()),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'December 26,2021',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: 'bold',
-                                  color: style.appColor),
-                            ),
-                            Text(
-                              '01:30 - 02:30 PM',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: 'bold',
-                                  color: style.appColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: Obx(() {
+                    return getController.allAppointments.isNotEmpty
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(child: _buildColumnFirst()),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      DateFormat('dd MMMM yyyy').format(
+                                          getController
+                                              .allAppointments[0].from),
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontFamily: 'bold',
+                                          color: style.appColor),
+                                    ),
+                                    Text(
+                                      DateFormat('hh:mm a').format(getController
+                                              .allAppointments[0].from) +
+                                          ' - ' +
+                                          DateFormat('hh:mm a').format(
+                                              getController
+                                                  .allAppointments[0].to),
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontFamily: 'bold',
+                                          color: style.appColor),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container();
+                  }),
                 ),
               ],
             ),
@@ -180,7 +195,7 @@ class OngoingAppointmentsTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Men\' Haircuts + Beard',
+            getController.allAppointments[0].title,
             style: TextStyle(fontSize: 17, fontFamily: 'bold'),
           ),
         ],

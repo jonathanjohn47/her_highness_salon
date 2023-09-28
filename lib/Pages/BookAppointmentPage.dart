@@ -937,7 +937,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
               onTap: () {
                 setState(() {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => tabsBarPage()));
+                      MaterialPageRoute(builder: (context) => TabsBarPage()));
                 });
               },
               child: Container(
@@ -970,7 +970,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
               onTap: () {
                 setState(() {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => tabsBarPage()));
+                      MaterialPageRoute(builder: (context) => TabsBarPage()));
                 });
               },
               child: Container(

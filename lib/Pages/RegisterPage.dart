@@ -194,7 +194,7 @@ class RegisterPage extends StatelessWidget {
             onTap: () {
               signUpGetController.saveProfile().then((value) {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    tabsBarPage.PageId, (route) => false);
+                    TabsBarPage.PageId, (route) => false);
               });
             },
             child: Container(

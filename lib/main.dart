@@ -59,7 +59,7 @@ class salon1AppCapacitor extends StatelessWidget {
           LoginPage.PageId: (context) => LoginPage(),
           ForgotPasswordPage.PageId: (context) => ForgotPasswordPage(),
           RegisterPage.PageId: (context) => RegisterPage(),
-          tabsBarPage.PageId: (context) => tabsBarPage(),
+          TabsBarPage.PageId: (context) => TabsBarPage(),
           DiscoverPage.PageId: (context) => DiscoverPage(),
           NearByPage.PageId: (context) => NearByPage(),
           AppointmentPage.PageId: (context) => AppointmentPage(),

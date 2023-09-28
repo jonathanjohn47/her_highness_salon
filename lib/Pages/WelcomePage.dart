@@ -6,10 +6,14 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:her_highness_salon/Pages/LoginPage.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
+import 'package:her_highness_salon/core/app_constants.dart';
+
+import 'TabsBarPage.dart';
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key? key}) : super(key: key);
@@ -22,6 +26,19 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   final CarouselController _controller = CarouselController();
+
+  @override
+  void initState() {
+    if (FirebaseAuth.instance.currentUser != null ||
+        FirebaseAuth.instance.currentUser!.email !=
+            AppConstants.emailForTemporaryLogin) {
+      Future.delayed(Duration(milliseconds: 100), () {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(TabsBarPage.PageId, (route) => false);
+      });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

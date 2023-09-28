@@ -19,4 +19,6 @@ class AppConstants {
   static String offers = 'Offers';
 
   static String notifications = 'Notifications';
+
+  static String appointments = 'Appointments';
 }

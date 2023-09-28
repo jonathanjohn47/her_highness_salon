@@ -14,15 +14,15 @@ import 'package:her_highness_salon/Pages/NearByPage.dart';
 import 'package:her_highness_salon/Pages/ProfilePage.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
 
-class tabsBarPage extends StatefulWidget {
-  tabsBarPage({Key? key}) : super(key: key);
-  static const String PageId = 'tabsBarPage';
+class TabsBarPage extends StatefulWidget {
+  TabsBarPage({Key? key}) : super(key: key);
+  static const String PageId = 'TabsBarPage';
 
   @override
-  State<tabsBarPage> createState() => _tabsBarPageState();
+  State<TabsBarPage> createState() => _TabsBarPageState();
 }
 
-class _tabsBarPageState extends State<tabsBarPage> {
+class _TabsBarPageState extends State<TabsBarPage> {
   int _currentIndex = 0;
   var radius = Radius.circular(10);
 

@@ -185,7 +185,7 @@ class LoginPage extends StatelessWidget {
                           onTap: () {
                             loginGetController.login().then((value) {
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  tabsBarPage.PageId, (route) => false);
+                                  TabsBarPage.PageId, (route) => false);
                             }).catchError((e) {
                               Get.snackbar('Error', e.toString(),
                                   snackPosition: SnackPosition.BOTTOM,
