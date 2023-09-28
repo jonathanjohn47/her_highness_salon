@@ -69,94 +69,31 @@ class LoginPage extends StatelessWidget {
                               topRight: Radius.circular(30.sp))),
                     ),
                   ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: TextButton(
-                      onPressed: () {
-                        loginGetController.loginAsAdmin.value =
-                            !loginGetController.loginAsAdmin.value;
-                      },
-                      child: Obx(() {
-                        return Text(
-                          'Login as Admin',
-                          style: TextStyle(
-                              color: loginGetController.loginAsAdmin.value
-                                  ? Colors.green
-                                  : Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: 'bold'),
-                        );
-                      }),
-                    ),
-                  ),
                 ],
               ),
               Padding(
                 padding: EdgeInsets.only(top: 0, left: 20.sp, right: 20.sp),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Email',
-                            style: TextStyle(fontSize: 15, fontFamily: 'bold'),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: TextField(
-                              controller:
-                                  loginGetController.emailFieldController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.only(
-                                    bottom: 8.0, top: 14.0),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.blueAccent),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey)),
-                              ),
+                child: Form(
+                  key: loginGetController.formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Email',
+                              style:
+                                  TextStyle(fontSize: 15, fontFamily: 'bold'),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Password',
-                            style: TextStyle(fontSize: 15, fontFamily: 'bold'),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: Obx(() {
-                              return TextField(
+                            Container(
+                              width: double.infinity,
+                              child: TextField(
                                 controller:
-                                    loginGetController.passwordFieldController,
+                                    loginGetController.emailFieldController,
                                 decoration: InputDecoration(
                                   filled: true,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      !loginGetController.showPassword.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: style.appColor,
-                                    ),
-                                    onPressed: () {
-                                      loginGetController.showPassword.value =
-                                          !loginGetController
-                                              .showPassword.value;
-                                    },
-                                  ),
                                   fillColor: Colors.white,
                                   contentPadding: const EdgeInsets.only(
                                       bottom: 8.0, top: 14.0),
@@ -168,149 +105,203 @@ class LoginPage extends StatelessWidget {
                                       borderSide:
                                           BorderSide(color: Colors.grey)),
                                 ),
-                                obscureText:
-                                    !loginGetController.showPassword.value,
-                              );
-                            }),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Password',
+                              style:
+                                  TextStyle(fontSize: 15, fontFamily: 'bold'),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              child: Obx(() {
+                                return TextField(
+                                  controller: loginGetController
+                                      .passwordFieldController,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        !loginGetController.showPassword.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        color: style.appColor,
+                                      ),
+                                      onPressed: () {
+                                        loginGetController.showPassword.value =
+                                            !loginGetController
+                                                .showPassword.value;
+                                      },
+                                    ),
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.only(
+                                        bottom: 8.0, top: 14.0),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.blueAccent),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey)),
+                                  ),
+                                  obscureText:
+                                      !loginGetController.showPassword.value,
+                                );
+                              }),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordPage()));
+                            },
+                            child: Text(
+                              'Forgot Password ?',
+                              style: TextStyle(color: style.appColor),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0.0, vertical: 20.0),
+                        child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ForgotPasswordPage()));
+                            loginGetController.login().then((value) {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  tabsBarPage.PageId, (route) => false);
+                            }).catchError((e) {
+                              Get.snackbar('Error', e.toString(),
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                            });
                           },
-                          child: Text(
-                            'Forgot Password ?',
-                            style: TextStyle(color: style.appColor),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0.0, vertical: 20.0),
-                      child: InkWell(
-                        onTap: () {
-                          loginGetController.login();
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              tabsBarPage.PageId, (route) => false);
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 13.0),
-                          decoration: style.contentButtonStyle(),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Log In',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontFamily: 'bold'),
-                              ),
-                            ],
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(vertical: 13.0),
+                            decoration: style.contentButtonStyle(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Log In',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontFamily: 'bold'),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      width: 1.0, color: Colors.black12),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              'or sign in with',
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.grey),
-                            ),
-                            Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      width: 1.0, color: Colors.black12),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.facebook_rounded,
-                                color: Color(0xFF4867AA),
-                                size: 40,
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  EvaIcons.twitter,
-                                  color: Color(0xFF1DA1F2),
-                                  size: 40,
-                                )),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  EvaIcons.google,
-                                  color: Color(0xFFdb3236),
-                                  size: 40,
-                                )),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
+                              Container(
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 1.0, color: Colors.black12),
+                                  ),
+                                ),
+                              ),
                               Text(
-                                'Don\'t have account ?',
-                                style: TextStyle(fontSize: 15),
+                                'or sign in with',
+                                style:
+                                    TextStyle(fontSize: 15, color: Colors.grey),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegisterPage()));
-                                },
-                                child: Text(
-                                  'Sign Up',
-                                  style: TextStyle(
-                                      fontSize: 15, color: style.appColor),
+                              Container(
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 1.0, color: Colors.black12),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.facebook_rounded,
+                                  color: Color(0xFF4867AA),
+                                  size: 40,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    EvaIcons.twitter,
+                                    color: Color(0xFF1DA1F2),
+                                    size: 40,
+                                  )),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    EvaIcons.google,
+                                    color: Color(0xFFdb3236),
+                                    size: 40,
+                                  )),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Don\'t have account ?',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RegisterPage()));
+                                  },
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                        fontSize: 15, color: style.appColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:her_highness_salon/core/app_constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,7 +26,9 @@ class SignUpGetController extends GetxController {
 
   Future<void> getImage() async {
     ImagePicker picker = ImagePicker();
-    await picker.pickImage(source: ImageSource.gallery).then((value) {
+    await picker
+        .pickImage(source: ImageSource.gallery, imageQuality: 33)
+        .then((value) {
       if (value != null) {
         imagePath.value = value.path;
       }
@@ -32,6 +36,27 @@ class SignUpGetController extends GetxController {
   }
 
   Future<void> saveProfile() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: AppConstants.emailForTemporaryLogin,
+        password: AppConstants.passwordForTemporaryLogin);
+    // Check if user exists in FirebaseFirestore
+    bool userDocExists = await FirebaseFirestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: emailController.text)
+        .get()
+        .then((value) => value.docs.isNotEmpty);
+
+    FirebaseAuth.instance.signOut();
+    // If user exists, display an error message
+    if (userDocExists) {
+      Get.snackbar('Error', 'User with that email already exists',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
+      return;
+    }
+
+    // If user does not exist, proceed with saving the profile
     if (formKey.currentState!.validate()) {
       if (imagePath.value.isNotEmpty) {
         final downloadUrl = await uploadImageToFirebaseStorage(imagePath.value);

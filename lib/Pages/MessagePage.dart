@@ -9,20 +9,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:her_highness_salon/Pages/ChatPage.dart';
-import 'package:her_highness_salon/get_controllers/LoginGetController.dart';
 
 class MessagePage extends StatelessWidget {
   static const String PageId = 'MessagePage';
 
   late BuildContext context;
 
-  LoginGetController loginGetController = Get.put(LoginGetController());
-
   @override
   Widget build(BuildContext context) {
     this.context = context;
     return Obx(() {
-      return loginGetController.loginAsAdmin.value
+      return /*loginGetController.loginAsAdmin.value
           ? SafeArea(
               child: Scaffold(
                 backgroundColor: Colors.white,
@@ -86,7 +83,8 @@ class MessagePage extends StatelessWidget {
                 ),
               ),
             )
-          : ChatPage();
+          :*/
+          ChatPage();
     });
   }
 
