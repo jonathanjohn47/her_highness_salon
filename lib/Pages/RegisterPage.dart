@@ -6,11 +6,14 @@
   terms found in the Website https://initappz.com/license
   Copyright and Good Faith Purchasers © 2021-present initappz.
 */
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:her_highness_salon/Pages/LoginPage.dart';
 import 'package:her_highness_salon/Pages/TabsBarPage.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
+import 'package:sizer/sizer.dart';
 
 import '../get_controllers/sign_up_get_controller.dart';
 
@@ -50,22 +53,29 @@ class RegisterPage extends StatelessWidget {
     return SingleChildScrollView(
       reverse: true,
       child: Center(
-        child: Column(
-          children: [
-            _buildContentFields('Full Name', Icon(Icons.person)),
-            _buildContentFields('Email', Icon(Icons.email)),
-            _buildContentFields('Password', Icon(Icons.lock)),
-            _buildDateAndTime(),
-            _buildContentFields('Your Address', Icon(Icons.location_on)),
-            _buildPhotoUploadField(),
-            _buildSignUpButton(),
-          ],
+        child: Form(
+          key: signUpGetController.formKey,
+          child: Column(
+            children: [
+              _buildContentFields('Full Name', Icon(Icons.person),
+                  signUpGetController.fullNameController),
+              _buildContentFields('Email', Icon(Icons.email),
+                  signUpGetController.emailController),
+              _buildContentFields('Password', Icon(Icons.lock),
+                  signUpGetController.passwordController),
+              _buildDateAndTime(),
+              _buildContentFields('Your Address', Icon(Icons.location_on),
+                  signUpGetController.addressController),
+              _buildPhotoUploadField(),
+              _buildSignUpButton(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildContentFields(txt, icn) {
+  Widget _buildContentFields(txt, icn, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Column(
@@ -78,6 +88,7 @@ class RegisterPage extends StatelessWidget {
           Container(
             width: double.infinity,
             child: TextField(
+              controller: controller,
               decoration: InputDecoration(
                 filled: true,
                 suffixIcon: icn,
@@ -126,7 +137,7 @@ class RegisterPage extends StatelessWidget {
                           context: context,
                           initialDate: signUpGetController.date.value,
                           firstDate: DateTime(1900),
-                          lastDate: DateTime(2100),
+                          lastDate: DateTime.now(),
                           helpText: 'Select Your Birth Date',
                           builder: (context, child) {
                             return Theme(
@@ -181,8 +192,10 @@ class RegisterPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
           child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  tabsBarPage.PageId, (route) => false);
+              signUpGetController.saveProfile().then((value) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    tabsBarPage.PageId, (route) => false);
+              });
             },
             child: Container(
               width: double.infinity,
@@ -231,8 +244,28 @@ class RegisterPage extends StatelessWidget {
   }
 
   Widget _buildPhotoUploadField() {
-    return ListTile(
-      leading: CircleAvatar(),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0.sp),
+      child: ListTile(
+        leading: Obx(() {
+          return signUpGetController.imagePath.value.isNotEmpty
+              ? CircleAvatar(
+                  radius: 40.sp,
+                  child: Image.file(File(signUpGetController.imagePath.value)),
+                )
+              : Text(
+                  'No Image\nSelected',
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.w600),
+                );
+        }),
+        trailing: IconButton(
+          icon: Icon(Icons.camera_alt),
+          onPressed: () {
+            signUpGetController.getImage();
+          },
+        ),
+      ),
     );
   }
 }

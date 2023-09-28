@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "640823078682",
+    "project_id": "herhighnesssalon-3ed51",
+    "storage_bucket": "herhighnesssalon-3ed51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640823078682:android:b8d955bc12a3084d9246a3",
+        "android_client_info": {
+          "package_name": "com.app.her_highness_salon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9XjtkDKPtaswX-Tr08qi-S8xXbtPhKXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

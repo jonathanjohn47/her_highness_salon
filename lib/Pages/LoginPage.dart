@@ -93,7 +93,7 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding:  EdgeInsets.only(top: 0, left: 20.sp, right: 20.sp),
+                padding: EdgeInsets.only(top: 0, left: 20.sp, right: 20.sp),
                 child: Column(
                   children: [
                     Padding(
@@ -108,6 +108,8 @@ class LoginPage extends StatelessWidget {
                           Container(
                             width: double.infinity,
                             child: TextField(
+                              controller:
+                                  loginGetController.emailFieldController,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
@@ -138,6 +140,8 @@ class LoginPage extends StatelessWidget {
                             width: double.infinity,
                             child: Obx(() {
                               return TextField(
+                                controller:
+                                    loginGetController.passwordFieldController,
                                 decoration: InputDecoration(
                                   filled: true,
                                   suffixIcon: IconButton(
@@ -195,6 +199,7 @@ class LoginPage extends StatelessWidget {
                           horizontal: 0.0, vertical: 20.0),
                       child: InkWell(
                         onTap: () {
+                          loginGetController.login();
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               tabsBarPage.PageId, (route) => false);
                         },
