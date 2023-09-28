@@ -21,7 +21,7 @@ class LoginGetController extends GetxController {
 
       // Check if the user's email exists in the "Users" collection.
       final userExists = await FirebaseFirestore.instance
-          .collection("Users")
+          .collection(AppConstants.users)
           .where("email", isEqualTo: emailFieldController.text)
           .get()
           .then((value) => value.docs.isNotEmpty);

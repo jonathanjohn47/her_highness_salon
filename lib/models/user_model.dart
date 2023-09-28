@@ -59,4 +59,13 @@ class UserModel {
     "address": address,
     "profile_pic_link": profilePicLink,
   };
+
+  static UserModel empty() => UserModel(
+    id: '',
+    fullName: '',
+    email: '',
+    dateOfBirth: DateTime.now(),
+    address: '',
+    profilePicLink: '',
+  );
 }

@@ -11,4 +11,12 @@ class AppConstants {
   static String courses = 'Courses';
 
   static String ePapers = 'EPapers';
+
+  static String hairStylists = 'HairStylists';
+
+  static String makeUpArtists = 'MakeUpArtists';
+
+  static String offers = 'Offers';
+
+  static String notifications = 'Notifications';
 }

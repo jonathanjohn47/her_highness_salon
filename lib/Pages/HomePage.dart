@@ -12,11 +12,15 @@ import 'package:her_highness_salon/Pages/NotificationsPage.dart';
 import 'package:her_highness_salon/Pages/ServicesInfoPage.dart';
 import 'package:her_highness_salon/Pages/SpecialistInfoPage.dart';
 import 'package:her_highness_salon/Utilities/ConstancePage.dart' as style;
+import 'package:her_highness_salon/get_controllers/home_page_get_controller.dart';
 
 class DiscoverPage extends StatelessWidget {
   static const String PageId = 'DiscoverPage';
 
   late BuildContext context;
+
+  HomePageGetController homePageGetController =
+      Get.put(HomePageGetController());
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +56,16 @@ class DiscoverPage extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Row(
-                children: [
-                  _buildSpecialist('Rahul Jograna', 'assets/images/selfies.jpg',
-                      'Hair Stylist'),
-                  _buildSpecialist(
-                      'Hardik Rajput', 'assets/images/p4.jpg', 'Hair Stylist'),
-                  _buildSpecialist('Shailly Acharya', 'assets/images/p6.jpg',
-                      'Hair Stylist'),
-                  _buildSpecialist(
-                      'Jaydeep Hirani', 'assets/images/p3.jpg', 'Hair Stylist'),
-                  _buildSpecialist(
-                      'Dodiya Saheb', 'assets/images/s3.jpg', 'Hair Stylist'),
-                ],
-              ),
+              child: Obx(() {
+                return Row(
+                  children: [
+                    ...homePageGetController.hairStylists.map((e) {
+                      return _buildSpecialist(
+                          e.fullName, e.profilePicLink, 'Hair Stylist');
+                    }).toList(),
+                  ],
+                );
+              }),
             ),
           ),
           _buildTitle('Special Offer'),
@@ -73,20 +73,16 @@ class DiscoverPage extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Row(
-                children: [
-                  _buildCategories('Reflection Beauty Salon',
-                      'assets/images/h2.jpg', 'Eva Surbhi Complex'),
-                  _buildCategories('Lovely Beauty Salon',
-                      'assets/images/h6.jpg', 'Hong Complex'),
-                  _buildCategories(
-                      'Showsen Salon', 'assets/images/h3.jpg', 'Iscon Complex'),
-                  _buildCategories('Beauty Hair Art', 'assets/images/h4.jpg',
-                      'HydRaw Center'),
-                  _buildCategories(
-                      'Danwer Salon', 'assets/images/h5.jpg', 'Wester Complex'),
-                ],
-              ),
+              child: Obx(() {
+                return Row(
+                  children: [
+                    ...homePageGetController.offers.map((e) {
+                      return _buildCategories(
+                          e.name, e.imageLink, e.description);
+                    }).toList(),
+                  ],
+                );
+              }),
             ),
           ),
           _buildTitle('Our Makeup Artists'),
@@ -94,20 +90,16 @@ class DiscoverPage extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Row(
-                children: [
-                  _buildSpecialist('Rahul Jograna', 'assets/images/selfies.jpg',
-                      'Make Up Artist'),
-                  _buildSpecialist('Hardik Rajput', 'assets/images/p4.jpg',
-                      'Make Up Artist'),
-                  _buildSpecialist('Shailly Acharya', 'assets/images/p6.jpg',
-                      'Make Up Artist'),
-                  _buildSpecialist('Jaydeep Hirani', 'assets/images/p3.jpg',
-                      'Make Up Artist'),
-                  _buildSpecialist(
-                      'Dodiya Saheb', 'assets/images/s3.jpg', 'Make Up Artist'),
-                ],
-              ),
+              child: Obx(() {
+                return Row(
+                  children: [
+                    ...homePageGetController.makeUpArtists.map((e) {
+                      return _buildSpecialist(
+                          e.fullName, e.profilePicLink, 'Make Up Artist');
+                    }).toList(),
+                  ],
+                );
+              }),
             ),
           ),
         ],
@@ -159,13 +151,15 @@ class DiscoverPage extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            'Rahul',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'bold',
-                                color: style.appColor),
-                          ),
+                          Obx(() {
+                            return Text(
+                              homePageGetController.currentUser.value.fullName,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'bold',
+                                  color: style.appColor),
+                            );
+                          }),
                         ],
                       ),
                     ),
@@ -175,10 +169,12 @@ class DiscoverPage extends StatelessWidget {
                           Icons.location_on,
                           color: Colors.grey,
                         ),
-                        Text(
-                          'Bhavnagar 364270, Gujrat India.',
-                          style: TextStyle(color: Colors.grey),
-                        ),
+                        Obx(() {
+                          return Text(
+                            homePageGetController.currentUser.value.address,
+                            style: TextStyle(color: Colors.grey),
+                          );
+                        }),
                       ],
                     ),
                   ],
@@ -206,23 +202,35 @@ class DiscoverPage extends StatelessWidget {
                     Positioned(
                       top: 1,
                       right: -2,
-                      child: Container(
-                        padding: EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        constraints: BoxConstraints(
-                          minWidth: 20,
-                          minHeight: 15,
-                        ),
-                        child: Text(
-                          '1',
-                          style: TextStyle(
-                              color: Colors.white, fontFamily: 'bold'),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                      child: Obx(() {
+                        if (homePageGetController
+                                .unreadNotificationsCount.value >
+                            0) {
+                          return Container(
+                            padding: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.orangeAccent,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 20,
+                              minHeight: 15,
+                            ),
+                            child: Text(
+                              homePageGetController
+                                  .unreadNotificationsCount.value
+                                  .toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'bold',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      }),
                     ),
                   ],
                 ),

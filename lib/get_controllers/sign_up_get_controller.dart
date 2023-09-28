@@ -59,12 +59,14 @@ class SignUpGetController extends GetxController {
     // If user does not exist, proceed with saving the profile
     if (formKey.currentState!.validate()) {
       if (imagePath.value.isNotEmpty) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
+        UserCredential credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text.trim(),
+                password: passwordController.text.trim());
         final downloadUrl = await uploadImageToFirebaseStorage(imagePath.value);
 
         UserModel userModel = buildUserModel(
+          credential.user!.uid,
           fullNameController.text,
           emailController.text,
           date.value,
@@ -97,10 +99,10 @@ class SignUpGetController extends GetxController {
     });
   }
 
-  UserModel buildUserModel(String fullName, String email, DateTime dateOfBirth,
-      String address, String profilePicLink) {
+  UserModel buildUserModel(String id, String fullName, String email,
+      DateTime dateOfBirth, String address, String profilePicLink) {
     return UserModel(
-      id: generateUniqueId(),
+      id: id,
       fullName: fullName,
       email: email,
       dateOfBirth: dateOfBirth,
