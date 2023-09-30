@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:her_highness_salon/models/user_model.dart';
+import 'user_model.dart';
 
 AppointmentModel appointmentModelFromJson(String str) =>
     AppointmentModel.fromJson(json.decode(str));
@@ -20,6 +20,7 @@ class AppointmentModel {
   DateTime to;
   bool finished;
   bool cancelled;
+  bool readByAdmin;
 
   AppointmentModel({
     required this.id,
@@ -29,6 +30,7 @@ class AppointmentModel {
     required this.to,
     required this.finished,
     required this.cancelled,
+    required this.readByAdmin,
   });
 
   AppointmentModel copyWith({
@@ -39,6 +41,7 @@ class AppointmentModel {
     DateTime? to,
     bool? finished,
     bool? cancelled,
+    bool? readByAdmin,
   }) =>
       AppointmentModel(
         id: id ?? this.id,
@@ -48,6 +51,7 @@ class AppointmentModel {
         to: to ?? this.to,
         finished: finished ?? this.finished,
         cancelled: cancelled ?? this.cancelled,
+        readByAdmin: readByAdmin ?? this.readByAdmin,
       );
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) =>
@@ -59,6 +63,7 @@ class AppointmentModel {
         to: DateTime.parse(json["to"]),
         finished: json["finished"],
         cancelled: json["cancelled"],
+        readByAdmin: json["read_by_admin"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,5 +74,6 @@ class AppointmentModel {
         "to": to.toIso8601String(),
         "finished": finished,
         "cancelled": cancelled,
+        "read_by_admin": readByAdmin,
       };
 }
