@@ -31,6 +31,8 @@ class ChatPageGetController extends GetxController {
         .listen((event) {
       allMessages.value =
           event.docs.map((e) => ChatMessageModel.fromJson(e.data())).toList();
+      allMessages.sort((a, b) => a.sentAt.compareTo(b.sentAt));
+      markAllMessagesAsReadByUser();
     });
   }
 
@@ -45,7 +47,7 @@ class ChatPageGetController extends GetxController {
     });
   }
 
-  void sendMessage() {
+  Future<void> sendMessage() async {
     // Create a unique message id
     final String messageId = Uuid().v4();
 
@@ -72,13 +74,13 @@ class ChatPageGetController extends GetxController {
         );
 
         // Store the ChatMessageModel object in Firestore
-        FirebaseFirestore.instance
+        await FirebaseFirestore.instance
             .collection(AppConstants.messages)
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update({
+            .set({
           AppConstants.lastMessage: message.toJson(),
         });
-        FirebaseFirestore.instance
+        await FirebaseFirestore.instance
             .collection(AppConstants.messages)
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .collection(AppConstants.messages)
@@ -97,22 +99,64 @@ class ChatPageGetController extends GetxController {
         readByAdmin: false,
         readByUser: true,
       );
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection(AppConstants.messages)
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({AppConstants.lastMessage: message.toJson()});
-      // Store the ChatMessageModel object in Firestore
-      FirebaseFirestore.instance
-          .collection(AppConstants.messages)
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection(AppConstants.messages)
-          .doc(messageId)
-          .set(message.toJson());
+          .get()
+          .then((value) async {
+        if (value.exists) {
+          await FirebaseFirestore.instance
+              .collection(AppConstants.messages)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .update({AppConstants.lastMessage: message.toJson()});
+          // Store the ChatMessageModel object in Firestore
+          await FirebaseFirestore.instance
+              .collection(AppConstants.messages)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection(AppConstants.messages)
+              .doc(messageId)
+              .set(message.toJson());
+        } else {
+          await FirebaseFirestore.instance
+              .collection(AppConstants.messages)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .set({AppConstants.lastMessage: message.toJson()});
+          // Store the ChatMessageModel object in Firestore
+          await FirebaseFirestore.instance
+              .collection(AppConstants.messages)
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection(AppConstants.messages)
+              .doc(messageId)
+              .set(message.toJson());
+        }
+      });
     }
 
     // Clear all the fields
     messageController.text = '';
     messageImage.value = '';
+  }
+
+  void markAllMessagesAsReadByUser() {
+    for (ChatMessageModel message in allMessages) {
+      if (!message.readByUser) {
+        message = message.copyWith(readByUser: true);
+
+        FirebaseFirestore.instance
+            .collection(AppConstants.messages)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection(AppConstants.messages)
+            .doc(message.id)
+            .update(message.toJson());
+      }
+    }
+    final ChatMessageModel lastMessage = allMessages.last;
+
+    // Update the last message in Firestore
+    FirebaseFirestore.instance
+        .collection(AppConstants.messages)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({AppConstants.lastMessage: lastMessage.toJson()});
   }
 
   @override

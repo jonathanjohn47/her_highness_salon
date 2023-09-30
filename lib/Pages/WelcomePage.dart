@@ -29,13 +29,14 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   void initState() {
-    if (FirebaseAuth.instance.currentUser != null ||
-        FirebaseAuth.instance.currentUser!.email !=
-            AppConstants.emailForTemporaryLogin) {
-      Future.delayed(Duration(milliseconds: 100), () {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(TabsBarPage.PageId, (route) => false);
-      });
+    if (FirebaseAuth.instance.currentUser != null) {
+      if (FirebaseAuth.instance.currentUser!.email !=
+          AppConstants.emailForTemporaryLogin) {
+        Future.delayed(Duration(milliseconds: 100), () {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(TabsBarPage.PageId, (route) => false);
+        });
+      }
     }
     super.initState();
   }

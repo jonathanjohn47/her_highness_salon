@@ -274,12 +274,13 @@ class ChatPage extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
+                controller: chatPageGetController.messageController,
                 decoration: InputDecoration(
                     border: InputBorder.none, hintText: 'Write a message...'),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 chatPageGetController.sendMessage();
               },
               child: Container(
