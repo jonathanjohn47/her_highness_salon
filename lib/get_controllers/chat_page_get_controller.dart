@@ -75,6 +75,12 @@ class ChatPageGetController extends GetxController {
         FirebaseFirestore.instance
             .collection(AppConstants.messages)
             .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({
+          AppConstants.lastMessage: message.toJson(),
+        });
+        FirebaseFirestore.instance
+            .collection(AppConstants.messages)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .collection(AppConstants.messages)
             .doc(messageId)
             .set(message.toJson());
@@ -91,7 +97,10 @@ class ChatPageGetController extends GetxController {
         readByAdmin: false,
         readByUser: true,
       );
-
+      FirebaseFirestore.instance
+          .collection(AppConstants.messages)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({AppConstants.lastMessage: message.toJson()});
       // Store the ChatMessageModel object in Firestore
       FirebaseFirestore.instance
           .collection(AppConstants.messages)

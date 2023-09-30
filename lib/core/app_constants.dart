@@ -23,4 +23,8 @@ class AppConstants {
   static String appointments = 'Appointments';
 
   static String messages = 'Messages';
+
+  static String lastMessage = 'last_message';
+
+
 }
